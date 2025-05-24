@@ -1,0 +1,146 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:game_score_counter/widgets/time_picker_dialog.dart';
+
+import '../res/app_res.dart';
+
+class TimerWidget extends StatefulWidget {
+  final Duration initialDuration;
+
+  const TimerWidget(
+      {super.key, this.initialDuration = const Duration(minutes: 1)});
+
+  @override
+  State<TimerWidget> createState() => _TimerWidgetState();
+}
+
+class _TimerWidgetState extends State<TimerWidget> {
+  late Duration _remainingTime;
+  late Duration _userSelectedTime;
+  Timer? _timer;
+  bool _isRunning = false;
+
+  String get _formattedRemainingTime => _formatTime(_remainingTime);
+
+  @override
+  void initState() {
+    super.initState();
+    _remainingTime = widget.initialDuration;
+  }
+
+  Future<void> _showTimePickerDialog(BuildContext context) async {
+    final Duration? result = await showDialog<Duration>(
+      context: context,
+      builder: (BuildContext context) {
+        return MyTimePickerDialog(
+          initialDuration: _remainingTime,
+        );
+      },
+    );
+    if (result != null) {
+      setState(() {
+        _remainingTime = result;
+        _userSelectedTime = result;
+      });
+    }
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingTime.inSeconds == 0) {
+        _stopTimer();
+      } else {
+        setState(() {
+          _remainingTime -= const Duration(seconds: 1);
+        });
+      }
+    });
+    setState(() {
+      _isRunning = true;
+    });
+  }
+
+  void _pauseTimer() {
+    _timer?.cancel();
+    setState(() {
+      _isRunning = false;
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    setState(() {
+      _isRunning = false;
+      _remainingTime = _userSelectedTime;
+    });
+  }
+
+  String _formatTime(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    return '${twoDigits(duration.inMinutes)}:${twoDigits(duration.inSeconds % 60)}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 56,
+            width: 56,
+            decoration: AppDeco.timerDeco,
+            child: IconButton(
+              icon: Icon(
+                _isRunning ? Icons.close : Icons.settings,
+                color: AppColors.primary1,
+              ),
+              onPressed: _isRunning
+                  ? null
+                  : () {
+                      //TODO nav to settings
+                    },
+            ),
+          ),
+          const SizedBox(width: 6),
+          Container(
+            height: 56,
+            width: 164,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: AppDeco.timerDeco,
+            child: InkWell(
+              onTap: () => _showTimePickerDialog(context),
+              child: Text(
+                _formattedRemainingTime,
+                style: AppTypo.headerXL32.copyWith(color: AppColors.primary1),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 6,
+          ),
+          Container(
+            height: 56,
+            width: 56,
+            decoration: AppDeco.timerDeco,
+            child: IconButton(
+              icon: Icon(
+                _isRunning ? Icons.pause : Icons.play_arrow,
+                color: AppColors.primary1,
+              ),
+              onPressed: () {
+                if (_isRunning) {
+                  _pauseTimer();
+                } else {
+                  _startTimer();
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
