@@ -82,13 +82,13 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
                         _newSeconds = value;
                       },
                       children: List<Widget>.generate(
-                          60,
-                          (index) => Center(
-                                child: Text(index.toString().padLeft(2, '0'),
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Orbitron')),
-                              )),
+                        60,
+                        (index) => Center(
+                          child: Text(index.toString().padLeft(2, '0'),
+                              style: const TextStyle(
+                                  color: Colors.white, fontFamily: 'Orbitron')),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -96,24 +96,22 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
             ),
             const SizedBox(height: 12),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Закрыть диалог
-              },
-              child: const Text("Cancel",
-                  style: TextStyle(color: Colors.greenAccent)),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.greenAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-              ),
+              style: AppBtnStyles.primaryBtnStyle,
               onPressed: () {
                 Navigator.of(context)
                     .pop(Duration(minutes: _newMinutes, seconds: _newSeconds));
               },
-              child: const Text("Save", style: TextStyle(color: Colors.black)),
+              child: const Text("Save"),
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              style:  AppBtnStyles.secondaryBtnStyle,
+              onPressed: () {
+                Navigator.of(context).pop(); // Закрыть диалог
+              },
+              child: const Text(
+                "Cancel",
+              ),
             ),
           ],
         ),
