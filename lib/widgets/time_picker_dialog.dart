@@ -24,92 +24,100 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: const Color(0xFF1C1B2D),
-      // Тёмный фон как в твоем UI
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: Column(
-        children: [
-          Text(AppTexts.setTheDuration,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          Text(AppTexts.chooseValue,
-              style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: 14,
-              )),
-        ],
-      ),
-      content: Container(
-        height: 150,
-        child: Row(
+    return Center(
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: AppDeco.dialogDeco,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Minutes picker
-            Expanded(
-              child: CupertinoPicker(
-                backgroundColor: Color(0xFF1C1B2D),
-                itemExtent: 32,
-                scrollController: FixedExtentScrollController(
-                    initialItem: widget.initialDuration.inMinutes),
-                onSelectedItemChanged: (int value) {
-                  _newMinutes = value;
-                },
-                children: List<Widget>.generate(
-                    61,
-                    (index) => Center(
-                          child: Text(index.toString().padLeft(2, '0'),
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'Orbitron')),
-                        )),
+            Text(
+              AppTexts.setTheDuration,
+              style: AppTypo.headerL,
+            ),
+            const SizedBox(height: 8),
+            Text(AppTexts.chooseValue, style: AppTypo.body3),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: 114,
+              height: 189,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Minutes picker
+                  Expanded(
+                    child: CupertinoPicker(
+                      looping: true,
+                      backgroundColor: Colors.transparent,
+                      itemExtent: 36,
+                      offAxisFraction: -0.7,
+                      scrollController: FixedExtentScrollController(
+                          initialItem: widget.initialDuration.inMinutes),
+                      onSelectedItemChanged: (int value) {
+                        _newMinutes = value;
+                      },
+                      children: List<Widget>.generate(
+                          61,
+                          (index) => Center(
+                                child: Text(index.toString().padLeft(2, '0'),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Orbitron')),
+                              )),
+                    ),
+                  ),
+                  // Seconds picker
+                  Expanded(
+                    child: CupertinoPicker(
+                      looping: true,
+                      backgroundColor: Colors.transparent,
+                      itemExtent: 32,
+                      offAxisFraction: 0.7,
+                      scrollController:
+                          FixedExtentScrollController(initialItem: _newSeconds),
+                      onSelectedItemChanged: (int value) {
+                        _newSeconds = value;
+                      },
+                      children: List<Widget>.generate(
+                          60,
+                          (index) => Center(
+                                child: Text(index.toString().padLeft(2, '0'),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Orbitron')),
+                              )),
+                    ),
+                  ),
+                ],
               ),
             ),
-            // Seconds picker
-            Expanded(
-              child: CupertinoPicker(
-                backgroundColor: Color(0xFF1C1B2D),
-                itemExtent: 32,
-                scrollController:
-                    FixedExtentScrollController(initialItem: _newSeconds),
-                onSelectedItemChanged: (int value) {
-                  _newSeconds = value;
-                },
-                children: List<Widget>.generate(
-                    60,
-                    (index) => Center(
-                          child: Text(index.toString().padLeft(2, '0'),
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'Orbitron')),
-                        )),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Закрыть диалог
+              },
+              child: const Text("Cancel",
+                  style: TextStyle(color: Colors.greenAccent)),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.greenAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
               ),
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(Duration(minutes: _newMinutes, seconds: _newSeconds));
+              },
+              child: const Text("Save", style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Закрыть диалог
-          },
-          child:
-              const Text("Cancel", style: TextStyle(color: Colors.greenAccent)),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.greenAccent,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          onPressed: () {
-            Navigator.of(context)
-                .pop(Duration(minutes: _newMinutes, seconds: _newSeconds));
-          },
-          child: const Text("Save", style: TextStyle(color: Colors.black)),
-        ),
-      ],
     );
   }
 }

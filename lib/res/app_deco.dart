@@ -12,4 +12,14 @@ class AppDeco {
       width: 2.0,
     ),
   );
+
+  static BoxDecoration dialogDeco = BoxDecoration(
+    borderRadius: BorderRadius.circular(28),
+    color: AppColors.background,
+    border: Border.all(
+      width: 2,
+      color: AppColors.layer2,
+    ),
+
+  );
 }
