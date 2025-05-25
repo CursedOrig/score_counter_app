@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/game_score_counter_page.dart';
+import 'package:game_score_counter/preloader_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
 
 void main() async {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const GameScoreCounterPage(),
+        home: PreloaderPage(),
         debugShowCheckedModeBanner: false);
   }
 }
