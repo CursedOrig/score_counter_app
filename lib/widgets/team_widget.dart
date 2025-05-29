@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:game_score_counter/res/shadows.dart';
 import 'package:game_score_counter/widgets/focusable_text_field.dart';
 
@@ -60,14 +61,18 @@ class TeamWidgetState extends State<TeamWidget> {
                         bottomLeft: Radius.circular(30)),
                   ),
                   child: Center(
-                      child: Transform.scale(
-                    scale: 1.5,
-                    child: Icon(
-                      Icons.remove,
-                      color:
-                          _score > 0 ? AppColors.textPrimary : AppColors.gray1,
+                    child: Transform.scale(
+                      scale: 1.5,
+                      child: SvgPicture.asset(
+                        AppIcons.icMinus,
+                        width: 24,
+                        height: 24,
+                        color: _score > 0
+                            ? AppColors.textPrimary
+                            : AppColors.gray1,
+                      ),
                     ),
-                  )),
+                  ),
                 ),
               ),
               const SizedBox(width: 5),
@@ -92,7 +97,12 @@ class TeamWidgetState extends State<TeamWidget> {
                     child: Transform.scale(
                       scale: 1.5,
                       child:
-                          const Icon(Icons.add, color: AppColors.textPrimary),
+                      SvgPicture.asset(
+                        AppIcons.icPlus,
+                        width: 24,
+                        height: 24,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ),

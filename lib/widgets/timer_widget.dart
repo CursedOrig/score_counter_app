@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:game_score_counter/main.dart';
+import 'package:game_score_counter/widgets/multi_icon.dart';
 import 'package:game_score_counter/widgets/time_picker_dialog.dart';
 
 import '../res/app_res.dart';
+import '../settings_page.dart';
 
 class TimerWidget extends StatefulWidget {
   final Duration initialDuration;
@@ -87,21 +91,18 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 56,
-            width: 56,
-            decoration: AppDeco.timerDeco,
-            child: IconButton(
-              icon: Icon(
-                _isRunning ? Icons.close : Icons.settings,
-                color: AppColors.primary1,
-              ),
-              onPressed: _isRunning
-                  ? null
-                  : () {
-                      //TODO nav to settings
-                    },
-            ),
+          MultiIcon(
+            asset: _isRunning ? AppIcons.icClose : AppIcons.icSettings,
+            isBorderEnabled: true,
+            onTap: _isRunning
+                ? null
+                : () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SettingsPage(),
+                      ),
+                    );
+                  },
           ),
           const SizedBox(width: 6),
           Container(
@@ -121,23 +122,16 @@ class _TimerWidgetState extends State<TimerWidget> {
           const SizedBox(
             width: 6,
           ),
-          Container(
-            height: 56,
-            width: 56,
-            decoration: AppDeco.timerDeco,
-            child: IconButton(
-              icon: Icon(
-                _isRunning ? Icons.pause : Icons.play_arrow,
-                color: AppColors.primary1,
-              ),
-              onPressed: () {
-                if (_isRunning) {
-                  _pauseTimer();
-                } else {
-                  _startTimer();
-                }
-              },
-            ),
+          MultiIcon(
+            asset: _isRunning ? AppIcons.icPause : AppIcons.icPlay,
+            isBorderEnabled: true,
+            onTap: () {
+              if (_isRunning) {
+                _pauseTimer();
+              } else {
+                _startTimer();
+              }
+            },
           ),
         ],
       ),

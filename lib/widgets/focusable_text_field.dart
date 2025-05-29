@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../res/app_res.dart';
 
 class FocusableTextField extends StatefulWidget {
@@ -57,12 +58,11 @@ class _FocusableTextFieldState extends State<FocusableTextField> {
         ),
         const SizedBox(width: 8.0),
         if (!_isFocused)
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: AppColors.background,
-            ),
-            onPressed: _requestFocus,
+          SvgPicture.asset(
+            AppIcons.icEdit,
+            width: 44,
+            height: 44,
+            color: AppColors.background,
           ),
       ],
     );
