@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/privacy_policy_page.dart';
+import 'package:game_score_counter/privacy_and_terms_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
-import 'package:game_score_counter/terms_of_use_page.dart';
 
 class _SettingsListItem extends StatelessWidget {
   final String title;
@@ -108,7 +107,7 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => PrivacyPolicyPage(),
+                builder: (context) => PrivacyAndTermsPage(title: 'Privacy policy',),
               ),
             );
           },
@@ -121,7 +120,7 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => TermsOfUsePage(),
+                builder: (context) => PrivacyAndTermsPage(title: 'Terms of use'),
               ),
             );
           },
