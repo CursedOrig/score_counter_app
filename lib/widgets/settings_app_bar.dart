@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/res/app_res.dart';
-import 'package:game_score_counter/widgets/multi_icon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../res/app_res.dart';
 
 class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -19,38 +19,26 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(height: MediaQuery.of(context).padding.top),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: 361,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                MultiIcon(
-                  asset: AppIcons.icBack,
-                  isBorderEnabled: false,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                Text(
-                  title,
-                  style: AppTypo.headerL,
-                ),
-                hasActions
-                    ? MultiIcon(
-                        asset: AppIcons.icHistory,
-                        isBorderEnabled: false,
-                        onTap: () {},
-                      )
-                    : const SizedBox(
-                        width: 44,
-                      ),
-              ],
+          InkWell(
+            onTap: () {
+              Navigator.pop(context, true);
+            },
+            child: SvgPicture.asset(
+              AppIcons.icBack,
             ),
           ),
+          Text(
+            title,
+            style: AppTypo.headerL,
+          ),
+          hasActions
+              ? InkWell(child: SvgPicture.asset(AppIcons.icHistory))
+              : const SizedBox(
+                  width: 44,
+                ),
         ],
       ),
     );

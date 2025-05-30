@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:game_score_counter/main.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
 import 'package:game_score_counter/widgets/time_picker_dialog.dart';
 
@@ -9,10 +7,13 @@ import '../res/app_res.dart';
 import '../settings_page.dart';
 
 class TimerWidget extends StatefulWidget {
-  final Duration initialDuration;
+  const TimerWidget({
+    super.key,
+    this.initialDuration = const Duration(minutes: 1), required this.onRefresh,
+  });
 
-  const TimerWidget(
-      {super.key, this.initialDuration = const Duration(minutes: 1)});
+  final Duration initialDuration;
+  final VoidCallback onRefresh;
 
   @override
   State<TimerWidget> createState() => _TimerWidgetState();
@@ -96,12 +97,13 @@ class _TimerWidgetState extends State<TimerWidget> {
             isBorderEnabled: true,
             onTap: _isRunning
                 ? null
-                : () {
-                    Navigator.of(context).push(
+                : () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => SettingsPage(),
                       ),
                     );
+                    widget.onRefresh.call();
                   },
           ),
           const SizedBox(width: 6),

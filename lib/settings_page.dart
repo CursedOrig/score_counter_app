@@ -30,13 +30,27 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: SettingsAppBar(title: 'Settings', hasActions: true,),
-      body: SettingsPageBody(),
+    return Material(
+      child: Container(
+          color: AppColors.background,
+          padding: EdgeInsets.only(
+            right: 16,
+            left: 16,
+            bottom: 20,
+            top: 20 + MediaQuery.of(context).padding.top,
+          ),
+          child: const Column(
+            children: [
+              SettingsAppBar(
+                title: 'Settings',
+                hasActions: true,
+              ),
+              SizedBox(height: 10,),
+              SettingsPageBody(),
+            ],
+          )),
     );
   }
 }

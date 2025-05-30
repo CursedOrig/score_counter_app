@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/privacy_and_terms_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
+import 'package:game_score_counter/scoreboard_palettes.dart';
 
 class _SettingsListItem extends StatelessWidget {
   final String title;
@@ -16,7 +17,7 @@ class _SettingsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0,),
       child: InkWell(
         onTap: onTap,
         child: Row(
@@ -57,17 +58,20 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            'App settings',
-            style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
-          ),
+        Text(
+          'App settings',
+          style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
         ),
         const SizedBox(height: 4),
         _SettingsListItem(
           title: 'Scoreboard palette',
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ScoreboardPalettePage(),
+              ),
+            );
+          },
         ),
         const SizedBox(
           height: 4,
@@ -87,14 +91,9 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {},
         ),
         const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
-          child: Text(
-            'General settings',
-            style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
-          ),
+        Text(
+          'General settings',
+          style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
         ),
         const SizedBox(
           height: 4,
@@ -126,14 +125,9 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           },
         ),
         const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
-          child: Text(
-            'More',
-            style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
-          ),
+        Text(
+          'More',
+          style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
         ),
         const SizedBox(
           height: 4,
