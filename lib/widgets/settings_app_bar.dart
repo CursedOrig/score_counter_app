@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:game_score_counter/main.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
 
@@ -10,7 +8,8 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const SettingsAppBar({
     super.key,
-    required this.title, required this.hasActions,
+    required this.title,
+    required this.hasActions,
   });
 
   @override
@@ -24,23 +23,32 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: <Widget>[
           SizedBox(height: MediaQuery.of(context).padding.top),
           const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SizedBox(
-              width: 361,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  MultiIcon(asset: AppIcons.icBack, isBorderEnabled: false, onTap: () {
+          SizedBox(
+            width: 361,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                MultiIcon(
+                  asset: AppIcons.icBack,
+                  isBorderEnabled: false,
+                  onTap: () {
                     Navigator.of(context).pop();
-                  },),
-                  Text(
-                    title,
-                    style: AppTypo.headerL,
-                  ),
-                  hasActions ? SvgPicture.asset(AppIcons.icHistory) : SizedBox(width: 44,),
-                ],
-              ),
+                  },
+                ),
+                Text(
+                  title,
+                  style: AppTypo.headerL,
+                ),
+                hasActions
+                    ? MultiIcon(
+                        asset: AppIcons.icHistory,
+                        isBorderEnabled: false,
+                        onTap: () {},
+                      )
+                    : const SizedBox(
+                        width: 44,
+                      ),
+              ],
             ),
           ),
         ],

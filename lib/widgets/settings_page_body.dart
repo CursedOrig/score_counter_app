@@ -64,12 +64,12 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
             style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         _SettingsListItem(
           title: 'Scoreboard palette',
           onTap: () {},
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
@@ -96,10 +96,10 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
             style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
@@ -107,12 +107,12 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => PrivacyAndTermsPage(title: 'Privacy policy',),
+                builder: (context) => const PrivacyAndTermsPage(title: 'Privacy policy',),
               ),
             );
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
@@ -120,7 +120,7 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => PrivacyAndTermsPage(title: 'Terms of use'),
+                builder: (context) => const PrivacyAndTermsPage(title: 'Terms of use'),
               ),
             );
           },
@@ -135,21 +135,21 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
             style: AppTypo.body3.copyWith(color: AppColors.textSecondary),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
           title: 'Rate this app',
           onTap: () {},
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
           title: 'Share this app',
           onTap: () {},
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         _SettingsListItem(
