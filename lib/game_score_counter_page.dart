@@ -14,7 +14,7 @@ class GameScoreCounterPage extends StatefulWidget {
 
 class _GameScoreCounterPageState extends State<GameScoreCounterPage> {
   late List<Color> selectedPalette = [Colors.black, Colors.black];
-  late SharedPreferences prefs;
+  SharedPreferences? prefs;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _GameScoreCounterPageState extends State<GameScoreCounterPage> {
 
   Future<void> _loadPalette() async {
     prefs = await SharedPreferences.getInstance();
-    final index = prefs.getInt(PrefsExt.paletteKey) ?? 0;
+    final index = prefs?.getInt(PrefsExt.paletteKey) ?? 0;
     setState(() {
       selectedPalette = Palettes.palettes[index];
     });
@@ -32,7 +32,7 @@ class _GameScoreCounterPageState extends State<GameScoreCounterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final index = prefs.getInt(PrefsExt.paletteKey) ?? 0;
+    final index = prefs?.getInt(PrefsExt.paletteKey) ?? 0;
     selectedPalette = Palettes.palettes[index];
 
     return Column(
