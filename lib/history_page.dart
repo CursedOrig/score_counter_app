@@ -26,6 +26,7 @@ class HistoryPage extends StatelessWidget {
                   future: HistorySavesRepo().getAll(),
                   builder: (context, snap) {
                     return snap.data == null ? const CupertinoActivityIndicator() : ListView.builder(
+                      reverse: true,
                       itemCount: snap.data?.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
@@ -73,14 +74,14 @@ class HistoryPage extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
-                                        '333 - 2',
+                                        '${snap.data?[index].teamScore1} - ${snap.data?[index].teamScore2}',
                                         style: AppTypo.headerM
                                             .copyWith(color: AppColors.primary1),
                                       ),
                                       const SizedBox(width: 10),
                                       Expanded(
                                         child: Text(
-                                          'Team 2',
+                                          '${snap.data?[index].teamName2}',
                                           style: AppTypo.body2,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,

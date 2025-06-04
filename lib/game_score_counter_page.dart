@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/palettes.dart';
+import 'package:game_score_counter/score_provider.dart';
 import 'package:game_score_counter/shared_prefs_ext/extensions.dart';
-import 'package:game_score_counter/widgets/team_widget.dart';
-import 'package:game_score_counter/widgets/timer_widget.dart';
+import 'package:game_score_counter/widgets/main_game_score_area.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameScoreCounterPage extends StatefulWidget {
@@ -35,48 +36,30 @@ class _GameScoreCounterPageState extends State<GameScoreCounterPage> {
     final index = prefs?.getInt(PrefsExt.paletteKey) ?? 0;
     selectedPalette = Palettes.palettes[index];
 
-    return Column(
-      children: [
-        Container(
-          height: MediaQuery.of(context).padding.top,
-          color: selectedPalette[0],
-        ),
-        Expanded(
-          child: Stack(
-            children: [
-              Flex(
-                direction:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? Axis.vertical
-                        : Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: TeamWidget(
-                      color: selectedPalette[0],
-                      text: 'Team 1',
-                    ),
-                  ),
-                  Expanded(
-                    child: TeamWidget(
-                      color: selectedPalette[1],
-                      text: 'Team 2',
-                    ),
-                  )
-                ],
-              ),
-              Center(child: TimerWidget(
-                onRefresh: () {
-                  setState(() {});
-                },
-              )),
-            ],
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).padding.top,
-          color: selectedPalette[1],
-        ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ScoreProvider>(create: (_) => ScoreProvider()),
       ],
+      child: Column(
+        children: [
+          /// Colored top safe area
+          Container(
+            height: MediaQuery.of(context).padding.top,
+            color: selectedPalette[0],
+          ),
+          Expanded(
+            child: MainGameScoreArea(selectedPalette: selectedPalette),
+          ),
+
+          /// Colored bottom safe area
+          Container(
+            height: MediaQuery.of(context).padding.top,
+            color: selectedPalette[1],
+          ),
+        ],
+      ),
     );
   }
 }
+
+

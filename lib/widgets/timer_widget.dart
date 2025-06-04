@@ -5,8 +5,10 @@ import 'package:game_score_counter/data/model/history_saves.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
 import 'package:game_score_counter/widgets/scoreboard_options_dialog.dart';
 import 'package:game_score_counter/widgets/time_picker_dialog.dart';
+import 'package:provider/provider.dart';
 
 import '../res/app_res.dart';
+import '../score_provider.dart';
 import '../settings_page.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -101,15 +103,15 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void _stopTimer() async {
+    final provider = Provider.of<ScoreProvider>(context, listen: false);
     final savedScore = HistorySaves(
-        dateTime: DateTime.now(),
-        teamName1: 'androbene',
-        teamName2: 'artimeahb',
-        teamScore1: 6,
-        teamScore2: 18);
+      dateTime: DateTime.now(),
+      teamName1: 'androbene',
+      teamName2: 'artimeahb',
+      teamScore1: provider.score1,
+      teamScore2: provider.score2,
+    );
     await HistorySavesRepo().add(savedScore);
-    final all = await HistorySavesRepo().getAll();
-    print(all.length);
     _timer?.cancel();
     setState(() {
       _isRunning = false;

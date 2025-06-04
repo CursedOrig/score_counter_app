@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:game_score_counter/res/app_res.dart';
 import 'package:game_score_counter/res/shadows.dart';
 import 'package:game_score_counter/widgets/focusable_text_field.dart';
 
-import '../res/app_res.dart';
-
-class TeamWidget extends StatefulWidget {
-  final Color color;
-  final String text;
-
+class TeamWidget extends StatelessWidget {
   const TeamWidget({
     super.key,
     required this.color,
     required this.text,
+    required this.onDecrease,
+    required this.onIncrease, required this.score,
   });
 
-  @override
-  TeamWidgetState createState() => TeamWidgetState();
-}
+  final Color color;
+  final String text;
+  final int score;
+  final VoidCallback onDecrease;
+  final VoidCallback onIncrease;
 
-class TeamWidgetState extends State<TeamWidget> {
-  int _score = 0;
-
-  @override
+    @override
   Widget build(BuildContext context) {
     return Material(
-      color: widget.color,
+      color: color,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FocusableTextField(
-            initialText: widget.text,
+            initialText: text,
           ),
           const SizedBox(height: 20),
           Text(
-            '$_score',
+            score.toString(),
             style: const TextStyle(fontSize: 120, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 20),
@@ -42,12 +39,8 @@ class TeamWidgetState extends State<TeamWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: _score > 0
-                    ? () {
-                        setState(() {
-                          _score--;
-                        });
-                      }
+                onTap: score > 0
+                    ? onDecrease
                     : null,
                 child: Container(
                   width: 72,
@@ -67,7 +60,7 @@ class TeamWidgetState extends State<TeamWidget> {
                         AppIcons.icMinus,
                         width: 24,
                         height: 24,
-                        color: _score > 0
+                        color: score > 0
                             ? AppColors.textPrimary
                             : AppColors.gray1,
                       ),
@@ -77,11 +70,7 @@ class TeamWidgetState extends State<TeamWidget> {
               ),
               const SizedBox(width: 5),
               InkWell(
-                onTap: () {
-                  setState(() {
-                    _score++;
-                  });
-                },
+                onTap: onIncrease,
                 child: Container(
                   width: 72,
                   padding:
@@ -96,12 +85,11 @@ class TeamWidgetState extends State<TeamWidget> {
                   child: Center(
                     child: Transform.scale(
                       scale: 1.5,
-                      child:
-                      SvgPicture.asset(
+                      child: SvgPicture.asset(
                         AppIcons.icPlus,
                         width: 24,
                         height: 24,
-                        color: AppColors.textPrimary,
+                        colorFilter: const ColorFilter.mode(AppColors.textPrimary, BlendMode.srcIn),
                       ),
                     ),
                   ),
