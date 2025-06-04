@@ -101,16 +101,16 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
                 Navigator.of(context)
                     .pop(Duration(minutes: _newMinutes, seconds: _newSeconds));
               },
-              child: const Text("Save"),
+              child: Text(AppTexts.save),
             ),
             const SizedBox(height: 12),
             TextButton(
               style:  AppBtnStyles.secondaryBtnStyle,
               onPressed: () {
-                Navigator.of(context).pop(); // Закрыть диалог
+                Navigator.of(context).pop();
               },
-              child: const Text(
-                "Cancel",
+              child: Text(
+                AppTexts.cancel,
               ),
             ),
           ],

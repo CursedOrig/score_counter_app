@@ -44,7 +44,7 @@ class _ScoreboardPalettePageState extends State<ScoreboardPalettePage> {
         ),
         child: Column(
           children: [
-            const SettingsAppBar(title: 'Scoreboard pallete', hasActions: false),
+            SettingsAppBar(title: AppTexts.scoreboardPalette, hasActions: false),
             const Spacer(flex: 5),
             Expanded(
               flex: 100,

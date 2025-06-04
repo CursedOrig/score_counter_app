@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:game_score_counter/history_page.dart';
 import '../res/app_res.dart';
 
 class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -35,7 +36,14 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
             style: AppTypo.headerL,
           ),
           hasActions
-              ? InkWell(child: SvgPicture.asset(AppIcons.icHistory))
+              ? InkWell(
+                  child: SvgPicture.asset(AppIcons.icHistory),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HistoryPage(),
+                    ),
+                  ),
+                )
               : const SizedBox(
                   width: 44,
                 ),

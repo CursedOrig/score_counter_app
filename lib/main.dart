@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/preloader_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await AppTheme.tuneSystemUiDark();
+  await Hive.initFlutter();
 
   runApp(const MyApp());
 }

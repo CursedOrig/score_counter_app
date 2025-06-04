@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:game_score_counter/data/history_saves_repo.dart';
+import 'package:game_score_counter/data/model/history_saves.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
+import 'package:game_score_counter/widgets/scoreboard_options_dialog.dart';
 import 'package:game_score_counter/widgets/time_picker_dialog.dart';
 
 import '../res/app_res.dart';
@@ -9,7 +12,8 @@ import '../settings_page.dart';
 class TimerWidget extends StatefulWidget {
   const TimerWidget({
     super.key,
-    this.initialDuration = const Duration(minutes: 1), required this.onRefresh,
+    this.initialDuration = const Duration(minutes: 1),
+    required this.onRefresh,
   });
 
   final Duration initialDuration;
@@ -31,6 +35,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
     _remainingTime = widget.initialDuration;
+    _userSelectedTime = widget.initialDuration;
   }
 
   Future<void> _showTimePickerDialog(BuildContext context) async {
@@ -50,7 +55,30 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
+  Future<void> _showScoreBoardOptionsDialog(
+    BuildContext context,
+    String text,
+  ) async {
+    _pauseTimer();
+    final choice = await showDialog<ScoreboardOptionsChoice>(
+      context: context,
+      builder: (BuildContext context) {
+        return ScoreboardOptionsDialog(text: text);
+      },
+    );
+
+    switch (choice) {
+      case ScoreboardOptionsChoice.restart:
+        _remainingTime = _userSelectedTime;
+        _startTimer();
+      case ScoreboardOptionsChoice.finish:
+      default:
+        {}
+    }
+  }
+
   void _startTimer() {
+    print('gfr');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTime.inSeconds == 0) {
         _stopTimer();
@@ -72,7 +100,16 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
-  void _stopTimer() {
+  void _stopTimer() async {
+    final savedScore = HistorySaves(
+        dateTime: DateTime.now(),
+        teamName1: 'androbene',
+        teamName2: 'artimeahb',
+        teamScore1: 6,
+        teamScore2: 18);
+    await HistorySavesRepo().add(savedScore);
+    final all = await HistorySavesRepo().getAll();
+    print(all.length);
     _timer?.cancel();
     setState(() {
       _isRunning = false;
@@ -96,7 +133,9 @@ class _TimerWidgetState extends State<TimerWidget> {
             asset: _isRunning ? AppIcons.icClose : AppIcons.icSettings,
             isBorderEnabled: true,
             onTap: _isRunning
-                ? null
+                ? () {
+                    _showScoreBoardOptionsDialog(context, 'Select option');
+                  }
                 : () async {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
