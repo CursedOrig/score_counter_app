@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/score_provider.dart';
+import 'package:game_score_counter/providers/score_provider.dart';
 import 'package:game_score_counter/widgets/team_widget.dart';
 import 'package:game_score_counter/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';

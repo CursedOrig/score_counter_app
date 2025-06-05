@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/privacy_and_terms_page.dart';
+import 'package:game_score_counter/providers/vibration_provider.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:game_score_counter/scoreboard_palettes.dart';
 
@@ -17,7 +18,9 @@ class _SettingsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0,),
+      padding: const EdgeInsets.symmetric(
+        vertical: 16.0,
+      ),
       child: InkWell(
         onTap: onTap,
         child: Row(
@@ -50,7 +53,20 @@ class SettingsPageBody extends StatefulWidget {
 }
 
 class _SettingsPageBodyState extends State<SettingsPageBody> {
-  bool _vibrationEnabled = false;
+  bool _isVibrationEnabled = false;
+
+  @override
+  void initState() {
+    loadVibrationSettings();
+    super.initState();
+  }
+
+  Future<void> loadVibrationSettings() async {
+    final savedValue = await VibrationManager().loadVibrationSettings();
+    setState(() {
+      _isVibrationEnabled = savedValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +95,13 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
         _SettingsListItem(
           title: 'Vibration',
           actions: Switch(
-            value: _vibrationEnabled,
+            value: _isVibrationEnabled,
             onChanged: (bool value) {
               setState(() {
-                _vibrationEnabled = value;
+                _isVibrationEnabled = value;
               });
+              VibrationManager().saveVibration(value);
+              print('object');
             },
             activeColor: AppColors.primary1,
             inactiveTrackColor: Colors.white24,
@@ -106,7 +124,9 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const PrivacyAndTermsPage(title: 'Privacy policy',),
+                builder: (context) => const PrivacyAndTermsPage(
+                  title: 'Privacy policy',
+                ),
               ),
             );
           },
@@ -119,7 +139,8 @@ class _SettingsPageBodyState extends State<SettingsPageBody> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const PrivacyAndTermsPage(title: 'Terms of use'),
+                builder: (context) =>
+                    const PrivacyAndTermsPage(title: 'Terms of use'),
               ),
             );
           },

@@ -37,10 +37,6 @@ class _FocusableTextFieldState extends State<FocusableTextField> {
     });
   }
 
-  void _requestFocus() {
-    FocusScope.of(context).requestFocus(_focusNode);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -52,7 +48,7 @@ class _FocusableTextFieldState extends State<FocusableTextField> {
               style: TextStyle(color: AppColors.background, fontSize: 24),
               decoration: null,
               focusNode: _focusNode,
-              controller: _textController, // Підключаємо контролер
+              controller: _textController,
             ),
           ),
         ),

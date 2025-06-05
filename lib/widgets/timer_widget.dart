@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:game_score_counter/data/history_saves_repo.dart';
 import 'package:game_score_counter/data/model/history_saves.dart';
+import 'package:game_score_counter/providers/vibration_provider.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
 import 'package:game_score_counter/widgets/scoreboard_options_dialog.dart';
 import 'package:game_score_counter/widgets/time_picker_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 import '../res/app_res.dart';
-import '../score_provider.dart';
+import '../providers/score_provider.dart';
 import '../settings_page.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -73,7 +77,20 @@ class _TimerWidgetState extends State<TimerWidget> {
       case ScoreboardOptionsChoice.restart:
         _remainingTime = _userSelectedTime;
         _startTimer();
+        _pauseTimer();
       case ScoreboardOptionsChoice.finish:
+        final provider = Provider.of<ScoreProvider>(context, listen: false);
+        final savedScore = HistorySaves(
+          dateTime: DateTime.now(),
+          teamName1: 'androbene',
+          teamName2: 'artimeahb',
+          teamScore1: provider.score1,
+          teamScore2: provider.score2,
+        );
+        await HistorySavesRepo().add(savedScore);
+        _remainingTime = widget.initialDuration;
+        _startTimer();
+        _pauseTimer();
       default:
         {}
     }
@@ -82,13 +99,13 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _startTimer() {
     print('gfr');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _remainingTime -= const Duration(seconds: 1);
+      });
+      print('time = ${_remainingTime.inSeconds}');
       if (_remainingTime.inSeconds == 0) {
         _stopTimer();
-      } else {
-        setState(() {
-          _remainingTime -= const Duration(seconds: 1);
-        });
-      }
+      } else {}
     });
     setState(() {
       _isRunning = true;
@@ -103,16 +120,28 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void _stopTimer() async {
+    _timer?.cancel();
+
     final provider = Provider.of<ScoreProvider>(context, listen: false);
     final savedScore = HistorySaves(
       dateTime: DateTime.now(),
-      teamName1: 'androbene',
-      teamName2: 'artimeahb',
+      teamName1: 'androgen',
+      teamName2: 'wartime',
       teamScore1: provider.score1,
       teamScore2: provider.score2,
     );
     await HistorySavesRepo().add(savedScore);
-    _timer?.cancel();
+
+    final prefs = await SharedPreferences.getInstance();
+    final isVibrationEnabled =
+        prefs.getBool(VibrationManager.vibrationKey) ?? false;
+    if (isVibrationEnabled) {
+      print('vibration');
+      await Vibration.vibrate();
+    }
+
+    await Future.delayed(Duration(seconds: 1));
+
     setState(() {
       _isRunning = false;
       _remainingTime = _userSelectedTime;
@@ -141,7 +170,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 : () async {
                     await Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => SettingsPage(),
+                        builder: (context) => const SettingsPage(),
                       ),
                     );
                     widget.onRefresh.call();
@@ -150,9 +179,9 @@ class _TimerWidgetState extends State<TimerWidget> {
           const SizedBox(width: 6),
           Container(
             height: 56,
-            width: 164,
+            width: MediaQuery.of(context).size.width * 0.50,
             alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: AppDeco.timerDeco,
             child: InkWell(
               onTap: () => _showTimePickerDialog(context),
@@ -162,9 +191,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 6,
-          ),
+          const SizedBox(width: 6),
           MultiIcon(
             asset: _isRunning ? AppIcons.icPause : AppIcons.icPlay,
             isBorderEnabled: true,

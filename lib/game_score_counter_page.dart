@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/palettes.dart';
-import 'package:game_score_counter/score_provider.dart';
+import 'package:game_score_counter/providers/score_provider.dart';
 import 'package:game_score_counter/shared_prefs_ext/extensions.dart';
 import 'package:game_score_counter/widgets/main_game_score_area.dart';
 import 'package:provider/provider.dart';

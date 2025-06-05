@@ -47,7 +47,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'Settings',
                 hasActions: true,
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               SettingsPageBody(),
             ],
           )),
