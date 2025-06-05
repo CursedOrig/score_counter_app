@@ -50,7 +50,11 @@ class _SettingsPageState extends State<SettingsPage> {
               SizedBox(
                 height: 10,
               ),
-              SettingsPageBody(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SettingsPageBody(),
+                ),
+              ),
             ],
           )),
     );

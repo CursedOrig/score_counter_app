@@ -26,15 +26,16 @@ class TeamWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Spacer(flex: 2),
           FocusableTextField(
             initialText: text,
           ),
-          const SizedBox(height: 20),
+          const Spacer(flex: 1),
           Text(
             score.toString(),
-            style: const TextStyle(fontSize: 120, fontWeight: FontWeight.w700),
+            style: AppTypo.headerSpecial.copyWith(color: AppColors.background)
           ),
-          const SizedBox(height: 20),
+          const Spacer(flex: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -97,6 +98,7 @@ class TeamWidget extends StatelessWidget {
               ),
             ],
           ),
+          const Spacer(flex: 2),
         ],
       ),
     );
