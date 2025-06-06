@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_score_counter/data/history_repo.dart';
+import 'package:game_score_counter/providers/team_names_provider.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
 import 'package:game_score_counter/dialogs/scoreboard_options_dialog.dart';
 import 'package:game_score_counter/dialogs/time_picker_dialog.dart';
@@ -122,13 +123,14 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _stopTimer() async {
     _timer?.cancel();
 
-    final provider = Provider.of<ScoreProvider>(context, listen: false);
+    final scoreProvider = Provider.of<ScoreProvider>(context, listen: false);
+    final nameProvider = Provider.of<TeamNamesProvider>(context, listen: false);
     final savedScore = HistoryModel(
       dateTime: DateTime.now(),
-      teamName1: 'androgen',
-      teamName2: 'wartime',
-      teamScore1: provider.score1,
-      teamScore2: provider.score2,
+      teamName1: nameProvider.teamName1,
+      teamName2: nameProvider.teamName2,
+      teamScore1: scoreProvider.score1,
+      teamScore2: scoreProvider.score2,
     );
     await HistoryRepo().add(savedScore);
 
@@ -136,7 +138,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     final isVibrationEnabled =
         prefs.getBool(VibrationManager.vibrationKey) ?? false;
     if (isVibrationEnabled) {
-      print('vibration');
       await Vibration.vibrate();
     }
 

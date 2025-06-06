@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_score_counter/providers/team_names_provider.dart';
 import 'package:game_score_counter/res/palettes.dart';
 import 'package:game_score_counter/providers/score_provider.dart';
 import 'package:game_score_counter/shared_prefs_ext/extensions.dart';
@@ -39,6 +40,7 @@ class _GameScoreCounterPageState extends State<GameScoreCounterPage> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ScoreProvider>(create: (_) => ScoreProvider()),
+        ChangeNotifierProvider<TeamNamesProvider>(create: (_) => TeamNamesProvider()),
       ],
       child: Column(
         children: [

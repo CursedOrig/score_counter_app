@@ -3,9 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import '../res/app_res.dart';
 
 class FocusableTextField extends StatefulWidget {
-  const FocusableTextField({super.key, required this.initialText});
+  const FocusableTextField(
+      {super.key, required this.initialText, required this.onTextChanged});
 
   final String initialText;
+  final void Function(String) onTextChanged;
 
   @override
   State<FocusableTextField> createState() => _FocusableTextFieldState();
@@ -45,10 +47,12 @@ class _FocusableTextFieldState extends State<FocusableTextField> {
         Flexible(
           child: IntrinsicWidth(
             child: TextField(
-              style: TextStyle(color: AppColors.background, fontSize: 24),
+
+              style: const TextStyle(color: AppColors.background, fontSize: 24),
               decoration: null,
               focusNode: _focusNode,
               controller: _textController,
+              onChanged: (newValue) => widget.onTextChanged(newValue),
             ),
           ),
         ),

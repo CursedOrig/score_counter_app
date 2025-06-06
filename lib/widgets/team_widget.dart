@@ -10,7 +10,7 @@ class TeamWidget extends StatelessWidget {
     required this.color,
     required this.text,
     required this.onDecrease,
-    required this.onIncrease, required this.score,
+    required this.onIncrease, required this.score, required this.onTextChanged,
   });
 
   final Color color;
@@ -18,6 +18,7 @@ class TeamWidget extends StatelessWidget {
   final int score;
   final VoidCallback onDecrease;
   final VoidCallback onIncrease;
+  final void Function(String) onTextChanged;
 
     @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class TeamWidget extends StatelessWidget {
         children: [
           const Spacer(flex: 2),
           FocusableTextField(
-            initialText: text,
+            initialText: text, onTextChanged: onTextChanged,
           ),
           const Spacer(flex: 1),
           Text(
