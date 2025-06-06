@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-
 import 'models/history_model.dart';
 
 class HistoryRepo {
@@ -18,13 +17,13 @@ class HistoryRepo {
     return box.values.toList();
   }
 
-  Future<void> delete(HistoryModel b7) async {
+  Future<void> delete(HistoryModel delModel) async {
     final box = await Hive.openBox<HistoryModel>(_name);
-    await box.delete(b7.dateTime.toString());
+    await box.delete(delModel.dateTime.toString());
   }
 
-  Future add(HistoryModel b7) async {
+  Future add(HistoryModel newModel) async {
     final box = await Hive.openBox<HistoryModel>(_name);
-    await box.put(b7.dateTime.toString(), b7);
+    await box.put(newModel.dateTime.toString(), newModel);
   }
 }

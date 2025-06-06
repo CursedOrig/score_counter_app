@@ -20,6 +20,26 @@ class AppDeco {
       width: 2,
       color: AppColors.layer2,
     ),
+  );
 
+  static BoxDecoration historyOuterItemDeco = BoxDecoration(
+    color: AppColors.layer1,
+    borderRadius: const BorderRadius.all(Radius.circular(12)),
+    border: Border.all(width: 2, color: AppColors.layer2),
+  );
+
+  static BoxDecoration historyInnerItemDeco = const BoxDecoration(
+    color: AppColors.layer2,
+    borderRadius: BorderRadius.only(
+      bottomRight: Radius.circular(10),
+      bottomLeft: Radius.circular(10),
+    ),
+  );
+
+  static BoxDecoration historyDeletingItemDeco = const BoxDecoration(
+    color: AppColors.redSystem,
+    borderRadius: BorderRadius.all(
+      Radius.circular(10),
+    ),
   );
 }
