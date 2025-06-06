@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/preloader_page.dart';
+import 'package:game_score_counter/pages/preloader_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:hive_flutter/adapters.dart';
 

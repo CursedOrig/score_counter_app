@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/game_score_counter_page.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'game_score_counter_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/palettes.dart';
+import 'package:game_score_counter/res/palettes.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:game_score_counter/shared_prefs_ext/extensions.dart';
 import 'package:game_score_counter/widgets/settings_app_bar.dart';

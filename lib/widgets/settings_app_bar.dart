@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:game_score_counter/history_page.dart';
+import 'package:game_score_counter/pages/history_page.dart';
 import '../res/app_res.dart';
 
 class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {

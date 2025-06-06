@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/privacy_and_terms_page.dart';
-import 'package:game_score_counter/providers/vibration_provider.dart';
+import 'package:game_score_counter/interaction/vibration_manager.dart';
 import 'package:game_score_counter/res/app_res.dart';
-import 'package:game_score_counter/scoreboard_palettes.dart';
+import '../pages/privacy_and_terms_page.dart';
+import '../pages/scoreboard_palettes_page.dart';
 
 class _SettingsListItem extends StatelessWidget {
   final String title;

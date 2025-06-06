@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'history_saves.g.dart';
+part 'history_model.g.dart';
 
 @HiveType(typeId: 0)
-class HistorySaves {
+class HistoryModel {
   @HiveField(0)
   DateTime dateTime;
 
@@ -19,7 +19,7 @@ class HistorySaves {
   @HiveField(4)
   int teamScore2;
 
-  HistorySaves({
+  HistoryModel({
     required this.dateTime,
     required this.teamName1, 
     required this.teamName2,

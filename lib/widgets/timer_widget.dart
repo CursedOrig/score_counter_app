@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_score_counter/data/history_saves_repo.dart';
-import 'package:game_score_counter/data/model/history_saves.dart';
-import 'package:game_score_counter/providers/vibration_provider.dart';
+import 'package:game_score_counter/data/history_repo.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
-import 'package:game_score_counter/widgets/scoreboard_options_dialog.dart';
-import 'package:game_score_counter/widgets/time_picker_dialog.dart';
+import 'package:game_score_counter/dialogs/scoreboard_options_dialog.dart';
+import 'package:game_score_counter/dialogs/time_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
 
+import '../data/models/history_model.dart';
+import '../interaction/vibration_manager.dart';
 import '../res/app_res.dart';
 import '../providers/score_provider.dart';
-import '../settings_page.dart';
+import '../pages/settings_page.dart';
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({
@@ -80,14 +80,14 @@ class _TimerWidgetState extends State<TimerWidget> {
         _pauseTimer();
       case ScoreboardOptionsChoice.finish:
         final provider = Provider.of<ScoreProvider>(context, listen: false);
-        final savedScore = HistorySaves(
+        final savedScore = HistoryModel(
           dateTime: DateTime.now(),
           teamName1: 'androbene',
           teamName2: 'artimeahb',
           teamScore1: provider.score1,
           teamScore2: provider.score2,
         );
-        await HistorySavesRepo().add(savedScore);
+        await HistoryRepo().add(savedScore);
         _remainingTime = widget.initialDuration;
         _startTimer();
         _pauseTimer();
@@ -123,14 +123,14 @@ class _TimerWidgetState extends State<TimerWidget> {
     _timer?.cancel();
 
     final provider = Provider.of<ScoreProvider>(context, listen: false);
-    final savedScore = HistorySaves(
+    final savedScore = HistoryModel(
       dateTime: DateTime.now(),
       teamName1: 'androgen',
       teamName2: 'wartime',
       teamScore1: provider.score1,
       teamScore2: provider.score2,
     );
-    await HistorySavesRepo().add(savedScore);
+    await HistoryRepo().add(savedScore);
 
     final prefs = await SharedPreferences.getInstance();
     final isVibrationEnabled =

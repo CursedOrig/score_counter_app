@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'history_saves.dart';
+part of 'history_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HistorySavesAdapter extends TypeAdapter<HistorySaves> {
+class HistoryModelAdapter extends TypeAdapter<HistoryModel> {
   @override
   final int typeId = 0;
 
   @override
-  HistorySaves read(BinaryReader reader) {
+  HistoryModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HistorySaves(
+    return HistoryModel(
       dateTime: fields[0] as DateTime,
       teamName1: fields[1] as String,
       teamName2: fields[2] as String,
@@ -26,7 +26,7 @@ class HistorySavesAdapter extends TypeAdapter<HistorySaves> {
   }
 
   @override
-  void write(BinaryWriter writer, HistorySaves obj) {
+  void write(BinaryWriter writer, HistoryModel obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -47,7 +47,7 @@ class HistorySavesAdapter extends TypeAdapter<HistorySaves> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HistorySavesAdapter &&
+      other is HistoryModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

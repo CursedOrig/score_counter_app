@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:game_score_counter/data/history_saves_repo.dart';
+import 'package:game_score_counter/data/history_repo.dart';
 import 'package:game_score_counter/res/app_res.dart';
 import 'package:game_score_counter/widgets/settings_app_bar.dart';
 
@@ -23,7 +23,7 @@ class HistoryPage extends StatelessWidget {
             SettingsAppBar(title: AppTexts.history, hasActions: false),
             Expanded(
                 child: FutureBuilder(
-                  future: HistorySavesRepo().getAll(),
+                  future: HistoryRepo().getAll(),
                   builder: (context, snap) {
                     return snap.data == null ? const CupertinoActivityIndicator() : ListView.builder(
                       reverse: true,

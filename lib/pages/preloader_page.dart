@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_score_counter/res/app_res.dart';
-import 'package:game_score_counter/welcome_page.dart';
+import 'package:game_score_counter/pages/welcome_page.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'game_score_counter_page.dart';
