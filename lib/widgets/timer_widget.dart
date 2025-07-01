@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:game_score_counter/data/history_repo.dart';
 import 'package:game_score_counter/providers/team_names_provider.dart';
 import 'package:game_score_counter/widgets/multi_icon.dart';
@@ -9,8 +8,8 @@ import 'package:game_score_counter/dialogs/time_picker_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
-
 import '../data/models/history_model.dart';
+import '../dialogs/scoreboard_time_over_dialog.dart';
 import '../interaction/vibration_manager.dart';
 import '../res/app_res.dart';
 import '../providers/score_provider.dart';
@@ -55,6 +54,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       },
     );
     if (result != null) {
+      print('result = $result');
       setState(() {
         _remainingTime = result;
         _userSelectedTime = result;
@@ -74,22 +74,82 @@ class _TimerWidgetState extends State<TimerWidget> {
       },
     );
 
+    if (!context.mounted) return;
+
     switch (choice) {
       case ScoreboardOptionsChoice.restart:
         _remainingTime = _userSelectedTime;
         _startTimer();
         _pauseTimer();
       case ScoreboardOptionsChoice.finish:
-        final provider = Provider.of<ScoreProvider>(context, listen: false);
+        final scoreProvider = Provider.of<ScoreProvider>(context, listen: false);
+        final nameProvider =
+            Provider.of<TeamNamesProvider>(context, listen: false);
         final savedScore = HistoryModel(
           dateTime: DateTime.now(),
-          teamName1: 'androbene',
-          teamName2: 'artimeahb',
+          teamName1: nameProvider.teamName1,
+          teamName2: nameProvider.teamName2,
+          teamScore1: scoreProvider.score1,
+          teamScore2: scoreProvider.score2,
+        );
+        await HistoryRepo().add(savedScore);
+        scoreProvider.setInitial();
+        setState(() {
+          _remainingTime = widget.initialDuration;
+          _remainingTime = widget.initialDuration;
+        });
+      default:
+        {}
+    }
+  }
+
+  Future<void> _showScoreBoardTimeOverDialog(
+    BuildContext context,
+    String text,
+  ) async {
+    _pauseTimer();
+    final choice = await showDialog<ScoreboardTimeOverChoice>(
+      context: context,
+      builder: (BuildContext context) {
+        return ScoreboardTimeOverDialog(text: text);
+      },
+    );
+
+    if (!context.mounted) return;
+
+    switch (choice) {
+      case ScoreboardTimeOverChoice.restart:
+        _remainingTime = _userSelectedTime;
+        _startTimer();
+        _pauseTimer();
+      case ScoreboardTimeOverChoice.finish:
+        final provider = Provider.of<ScoreProvider>(context, listen: false);
+        final nameProvider =
+            Provider.of<TeamNamesProvider>(context, listen: false);
+        final savedScore = HistoryModel(
+          dateTime: DateTime.now(),
+          teamName1: nameProvider.teamName1,
+          teamName2: nameProvider.teamName2,
           teamScore1: provider.score1,
           teamScore2: provider.score2,
         );
         await HistoryRepo().add(savedScore);
         _remainingTime = widget.initialDuration;
+        _startTimer();
+        _pauseTimer();
+      case ScoreboardTimeOverChoice.repeat:
+        final provider = Provider.of<ScoreProvider>(context, listen: false);
+        final nameProvider =
+            Provider.of<TeamNamesProvider>(context, listen: false);
+        final savedScore = HistoryModel(
+          dateTime: DateTime.now(),
+          teamName1: nameProvider.teamName1,
+          teamName2: nameProvider.teamName2,
+          teamScore1: provider.score1,
+          teamScore2: provider.score2,
+        );
+        await HistoryRepo().add(savedScore);
+        _remainingTime = _userSelectedTime;
         _startTimer();
         _pauseTimer();
       default:
@@ -98,7 +158,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void _startTimer() {
-    print('gfr');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _remainingTime -= const Duration(seconds: 1);
@@ -123,16 +182,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _stopTimer() async {
     _timer?.cancel();
 
-    final scoreProvider = Provider.of<ScoreProvider>(context, listen: false);
-    final nameProvider = Provider.of<TeamNamesProvider>(context, listen: false);
-    final savedScore = HistoryModel(
-      dateTime: DateTime.now(),
-      teamName1: nameProvider.teamName1,
-      teamName2: nameProvider.teamName2,
-      teamScore1: scoreProvider.score1,
-      teamScore2: scoreProvider.score2,
-    );
-    await HistoryRepo().add(savedScore);
+    _showScoreBoardTimeOverDialog(context, 'Time is over');
 
     final prefs = await SharedPreferences.getInstance();
     final isVibrationEnabled =

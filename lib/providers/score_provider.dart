@@ -28,4 +28,10 @@ class ScoreProvider with ChangeNotifier {
     _score2++;
     notifyListeners();
   }
+
+  void setInitial() {
+    _score1 = 0;
+    _score2 = 0;
+    notifyListeners();
+  }
 }

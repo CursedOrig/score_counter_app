@@ -23,7 +23,7 @@ class _PreloaderPageState extends State<PreloaderPage> {
     final prefs = await SharedPreferences.getInstance();
     final isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 200));
 
     if (!mounted) return;
 
