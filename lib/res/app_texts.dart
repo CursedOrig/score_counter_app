@@ -18,4 +18,5 @@ class AppTexts {
   static String cancel = 'Cancel';
   static String restart = 'Restart';
   static String finish = 'Finish';
+  static String repeat = 'Repeat';
 }
