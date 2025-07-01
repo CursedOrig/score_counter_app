@@ -18,7 +18,7 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
   @override
   void initState() {
     _newMinutes = widget.initialDuration.inMinutes;
-    _newSeconds = widget.initialDuration.inSeconds;
+    _newSeconds = widget.initialDuration.inSeconds % 60;
     super.initState();
   }
 
@@ -57,6 +57,7 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
                       scrollController: FixedExtentScrollController(
                           initialItem: widget.initialDuration.inMinutes),
                       onSelectedItemChanged: (int value) {
+                        print('selected minutes = $value');
                         _newMinutes = value;
                       },
                       children: List<Widget>.generate(
@@ -79,6 +80,7 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
                       scrollController:
                           FixedExtentScrollController(initialItem: _newSeconds),
                       onSelectedItemChanged: (int value) {
+                        print('selected seconds = $value');
                         _newSeconds = value;
                       },
                       children: List<Widget>.generate(
@@ -98,14 +100,15 @@ class _MyTimePickerDialogState extends State<MyTimePickerDialog> {
             TextButton(
               style: AppBtnStyles.primaryBtnStyle,
               onPressed: () {
-                Navigator.of(context)
-                    .pop(Duration(minutes: _newMinutes, seconds: _newSeconds));
+                final newDuration =
+                    Duration(minutes: _newMinutes, seconds: _newSeconds);
+                Navigator.of(context).pop(newDuration);
               },
               child: Text(AppTexts.save),
             ),
             const SizedBox(height: 12),
             TextButton(
-              style:  AppBtnStyles.secondaryBtnStyle,
+              style: AppBtnStyles.secondaryBtnStyle,
               onPressed: () {
                 Navigator.of(context).pop();
               },
