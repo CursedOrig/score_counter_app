@@ -123,20 +123,23 @@ class _TimerWidgetState extends State<TimerWidget> {
         _startTimer();
         _pauseTimer();
       case ScoreboardTimeOverChoice.finish:
-        final provider = Provider.of<ScoreProvider>(context, listen: false);
+        final scoreProvider = Provider.of<ScoreProvider>(context, listen: false);
         final nameProvider =
             Provider.of<TeamNamesProvider>(context, listen: false);
         final savedScore = HistoryModel(
           dateTime: DateTime.now(),
           teamName1: nameProvider.teamName1,
           teamName2: nameProvider.teamName2,
-          teamScore1: provider.score1,
-          teamScore2: provider.score2,
+          teamScore1: scoreProvider.score1,
+          teamScore2: scoreProvider.score2,
         );
         await HistoryRepo().add(savedScore);
         _remainingTime = widget.initialDuration;
-        _startTimer();
-        _pauseTimer();
+        scoreProvider.setInitial();
+        setState(() {
+          _remainingTime = widget.initialDuration;
+          _remainingTime = widget.initialDuration;
+        });
       case ScoreboardTimeOverChoice.repeat:
         final provider = Provider.of<ScoreProvider>(context, listen: false);
         final nameProvider =
